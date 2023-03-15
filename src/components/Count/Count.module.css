@@ -16,6 +16,10 @@
   width: 8px;
 }
 
+.minus:disabled {
+  cursor: not-allowed;
+}
+
 .plus {
   width: 8px;
 }
