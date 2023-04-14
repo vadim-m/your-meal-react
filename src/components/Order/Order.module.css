@@ -90,6 +90,12 @@
   margin-bottom: 8px;
 }
 
+.submit:disabled {
+  cursor: not-allowed;
+  background: #f2f2f3;
+  color: gray;
+}
+
 .apeal {
   display: flex;
   align-items: center;

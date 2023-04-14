@@ -3,13 +3,12 @@ import { OrderGoods } from "../OrderGoods/OrderGoods";
 import style from "./Order.module.css";
 import { useEffect } from "react";
 import { orderRequestAsync } from "../../store/order/orderSlice";
+import { openModal } from "../../store/modalDelivery/modalDeliverySlice";
 
 export const Order = () => {
   const { totalPrice, totalCount, orderList, orderGoods } = useSelector(
     (state) => state.order
   );
-
-  console.log(orderGoods);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -40,7 +39,15 @@ export const Order = () => {
             </p>
           </div>
 
-          <button className={style.submit}>Оформить заказ</button>
+          <button
+            className={style.submit}
+            disabled={orderGoods.length === 0}
+            onClick={() => {
+              dispatch(openModal());
+            }}
+          >
+            Оформить заказ
+          </button>
 
           <div className={style.apeal}>
             <p className={style.text}>Бесплатная доставка</p>
