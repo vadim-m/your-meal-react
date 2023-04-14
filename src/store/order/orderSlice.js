@@ -1,7 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { API_URI, POSTFIX } from "../../constants/const";
 
 const initialState = {
   orderList: JSON.parse(localStorage.getItem("order") || "[]"),
+  orderGoods: [],
+  totalPrice: 0,
+  totalCount: 0,
+  error: [],
 };
 
 export const localStorageMiddleware = (store) => (next) => (action) => {
@@ -14,6 +19,17 @@ export const localStorageMiddleware = (store) => (next) => (action) => {
 
   return nextAction;
 };
+
+export const orderRequestAsync = createAsyncThunk(
+  "order/fetch",
+  (_, { getState }) => {
+    const listId = getState().order.orderList.map((item) => item.id);
+
+    return fetch(`${API_URI}${POSTFIX}?list=${listId}`)
+      .then((req) => req.json())
+      .catch((err) => ({ error }));
+  }
+);
 
 const orderSlice = createSlice({
   name: "order",
@@ -30,6 +46,37 @@ const orderSlice = createSlice({
         state.orderList.push({ ...action.payload, count: 1 });
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(orderRequestAsync.pending, (state) => {
+        state.error = "";
+      })
+      .addCase(orderRequestAsync.fulfilled, (state, action) => {
+        const orderGoods = state.orderList.map((item) => {
+          const product = action.payload.find(
+            (product) => product.id === item.id
+          );
+
+          product.count = item.count;
+
+          return product;
+        });
+
+        state.error = "";
+        state.orderGoods = orderGoods;
+        state.totalCount = orderGoods.reduce(
+          (acc, item) => acc + item.count,
+          0
+        );
+        state.totalPrice = orderGoods.reduce(
+          (acc, item) => acc + item.count * item.price,
+          0
+        );
+      })
+      .addCase(orderRequestAsync.rejected, (state, action) => {
+        state.error = action.payload.error;
+      });
   },
 });
 
