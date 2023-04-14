@@ -4,20 +4,17 @@ import style from "./Order.module.css";
 import { useEffect } from "react";
 import { orderRequestAsync } from "../../store/order/orderSlice";
 
-const orderList = [
-  "Сочный бругер",
-  "Картошка фри",
-  "Вкусный рис",
-  "Жгучий хот-дог",
-];
-
 export const Order = () => {
-  const { totalPrice, totalCount } = useSelector((state) => state.order);
+  const { totalPrice, totalCount, orderList, orderGoods } = useSelector(
+    (state) => state.order
+  );
+
+  console.log(orderGoods);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(orderRequestAsync());
-  }, []);
+  }, [orderList.length]);
 
   return (
     <div className="order">
@@ -30,8 +27,8 @@ export const Order = () => {
 
         <div className={style.wrap_list}>
           <ul className={style.list}>
-            {orderList.map((item, i) => (
-              <OrderGoods item={item} key={i} />
+            {orderGoods.map((item) => (
+              <OrderGoods item={item} key={item.id} {...item} />
             ))}
           </ul>
 
