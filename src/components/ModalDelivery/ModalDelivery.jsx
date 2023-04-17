@@ -2,7 +2,12 @@ import classNames from "classnames";
 import style from "./ModalDelivery.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../store/modalDelivery/modalDeliverySlice";
-import { submitForm, updateFormValue } from "../../store/form/formSlice";
+import {
+  changeTouch,
+  submitForm,
+  updateFormValue,
+  validateForm,
+} from "../../store/form/formSlice";
 
 export const ModalDelivery = () => {
   const { isOpen } = useSelector((state) => state.modal);
@@ -17,11 +22,18 @@ export const ModalDelivery = () => {
         value: e.target.value,
       })
     );
+
+    dispatch(validateForm());
+    dispatch(changeTouch());
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(submitForm({ ...form, orderList }));
+    dispatch(validateForm());
+
+    if (Object.keys(form.errors).length === 0 && form.touch) {
+      dispatch(submitForm({ ...form, orderList }));
+    }
   };
 
   return (

@@ -9,6 +9,9 @@ const initialState = {
   address: "",
   floor: "",
   intercom: "",
+  error: null,
+  errors: {},
+  touch: false,
 };
 
 const formSlice = createSlice({
@@ -17,6 +20,15 @@ const formSlice = createSlice({
   reducers: {
     updateFormValue: (state, action) => {
       state[action.payload.field] = action.payload.value;
+    },
+    setError: (state, action) => {
+      state.errors = action.payload;
+    },
+    clearError: (state) => {
+      state.errors = {};
+    },
+    changeTouch: (state) => {
+      state.touch = true;
     },
   },
   extraReducers: (builder) => {
@@ -66,5 +78,41 @@ export const submitForm = createAsyncThunk(
   }
 );
 
-export const { updateFormValue } = formSlice.actions;
+export const validateForm = () => (dispatch, getState) => {
+  const form = getState().form;
+  const errors = {};
+
+  if (!form.name) {
+    errors.name = "Field is required!";
+  }
+
+  if (!form.phone) {
+    errors.phone = "Field is required!";
+  }
+
+  if (!form.address && form.format === "delivery") {
+    errors.address = "Field is required!";
+  }
+
+  if (!form.floor && form.format === "delivery") {
+    errors.floor = "Field is required!";
+  }
+
+  if (!form.intercom && form.format === "delivery") {
+    errors.intercom = "Field is required!";
+  }
+
+  if (form.phone === "pickup") {
+    dispatch(updateFormValue({ field: "address", value: "" }));
+    dispatch(updateFormValue({ field: "floor", value: "" }));
+    dispatch(updateFormValue({ field: "intercom", value: "" }));
+  }
+
+  if (Object.keys(errors).length > 0) {
+    dispatch(setError);
+  } else dispatch(clearError());
+};
+
+export const { updateFormValue, setError, clearError, changeTouch } =
+  formSlice.actions;
 export default formSlice.reducer;
