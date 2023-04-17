@@ -1,4 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { closeModal } from "../modalDelivery/modalDeliverySlice";
+import { clearOrder } from "../order/orderSlice";
 
 const initialState = {
   name: "",
@@ -49,6 +51,15 @@ export const submitForm = createAsyncThunk(
           body: JSON.stringify(data),
         }
       );
+
+      if (!res.ok) {
+        throw new Error(`Ошибка ${res.statusText}!`);
+      }
+
+      dispatch(clearOrder());
+      dispatch(closeModal());
+
+      return await res.json();
     } catch (error) {
       rejectWithValue(error);
     }
