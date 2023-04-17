@@ -1,5 +1,9 @@
 .order {
+  min-height: 48px;
   position: relative;
+  z-index: 5;
+
+  margin-bottom: 12px;
 }
 
 .wrapper {

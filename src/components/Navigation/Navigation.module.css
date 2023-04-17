@@ -9,10 +9,10 @@
 
 .list {
   display: flex;
-  padding: 0 calc((100vw / 2) - (var(--container) / 2));
+  flex-wrap: wrap;
   overflow-x: auto;
   overflow-y: hidden;
-  column-gap: 8px;
+  gap: 8px;
 }
 
 .button {

@@ -7,7 +7,7 @@ import {
   changeCategory,
 } from "../../store/category/categorySlice";
 import { useEffect } from "react";
-import { API_URI, POSTFIX } from "../../constants/const";
+import { API_URI } from "../../constants/const";
 
 export const Navigation = () => {
   const { category, activeCategory } = useSelector((state) => state.category);
@@ -19,7 +19,7 @@ export const Navigation = () => {
 
   return (
     <nav className={style.navigation}>
-      <Container className={style.container}>
+      <Container>
         <ul className={style.list}>
           {category.map((item, i) => (
             <li className={style.item} key={item.title}>
