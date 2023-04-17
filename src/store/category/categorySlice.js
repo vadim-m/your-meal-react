@@ -10,7 +10,6 @@ const initialState = {
 export const categoryRequestAsync = createAsyncThunk(
   "category/fetch",
   (date, obj) => {
-    console.log(date, obj);
     return fetch(`${API_URI}${POSTFIX}/category`)
       .then((req) => req.json())
       .catch((error) => ({ error }));
@@ -22,8 +21,6 @@ const categorySlice = createSlice({
   initialState,
   reducers: {
     changeCategory(state, action) {
-      console.log("state", state);
-      console.log("action", action);
       state.activeCategory = action.payload.indexCategory;
     },
   },
