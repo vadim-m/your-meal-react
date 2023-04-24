@@ -25,12 +25,12 @@ export const ModalDelivery = () => {
     );
 
     dispatch(validateForm());
-    dispatch(changeTouch());
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(validateForm());
+    dispatch(changeTouch());
 
     if (Object.keys(form.errors).length === 0 && form.touch) {
       dispatch(submitForm({ ...form, orderList }));
@@ -130,6 +130,13 @@ export const ModalDelivery = () => {
             <button className={style.submit} type="submit" form="delivery">
               Оформить
             </button>
+
+            {form.touch &&
+              Object.entries(form.errors).map(([val, err]) => (
+                <p className={style.label} key={val}>
+                  {err}
+                </p>
+              ))}
           </div>
 
           <button

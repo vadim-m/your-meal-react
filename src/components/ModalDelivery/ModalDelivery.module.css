@@ -157,6 +157,8 @@
   line-height: 100%;
   color: #ffffff;
   transition: transform 0.1s ease, background-color 0.3s ease-in-out;
+
+  margin-bottom: 1rem;
 }
 
 .submit:hover {

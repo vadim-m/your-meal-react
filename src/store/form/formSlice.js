@@ -83,23 +83,23 @@ export const validateForm = () => (dispatch, getState) => {
   const errors = {};
 
   if (!form.name) {
-    errors.name = "Field is required!";
+    errors.name = "name is required!";
   }
 
   if (!form.phone) {
-    errors.phone = "Field is required!";
+    errors.phone = "phone is required!";
   }
 
   if (!form.address && form.format === "delivery") {
-    errors.address = "Field is required!";
+    errors.address = "address is required!";
   }
 
   if (!form.floor && form.format === "delivery") {
-    errors.floor = "Field is required!";
+    errors.floor = "floor is required!";
   }
 
   if (!form.intercom && form.format === "delivery") {
-    errors.intercom = "Field is required!";
+    errors.intercom = "intercom is required!";
   }
 
   if (form.format === "pickup") {
