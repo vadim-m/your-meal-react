@@ -13,6 +13,7 @@ export const ModalDelivery = () => {
   const { isOpen } = useSelector((state) => state.modal);
   const form = useSelector((state) => state.form);
   const { orderList } = useSelector((state) => state.order);
+
   const dispatch = useDispatch();
 
   const handleInputChange = (e) => {

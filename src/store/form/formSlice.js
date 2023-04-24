@@ -102,15 +102,17 @@ export const validateForm = () => (dispatch, getState) => {
     errors.intercom = "Field is required!";
   }
 
-  if (form.phone === "pickup") {
+  if (form.format === "pickup") {
     dispatch(updateFormValue({ field: "address", value: "" }));
     dispatch(updateFormValue({ field: "floor", value: "" }));
     dispatch(updateFormValue({ field: "intercom", value: "" }));
   }
 
-  if (Object.keys(errors).length > 0) {
-    dispatch(setError);
-  } else dispatch(clearError());
+  if (Object.keys.length) {
+    dispatch(setError(errors));
+  } else {
+    dispatch(clearError());
+  }
 };
 
 export const { updateFormValue, setError, clearError, changeTouch } =
