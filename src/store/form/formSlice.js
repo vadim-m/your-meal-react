@@ -54,7 +54,7 @@ export const submitForm = createAsyncThunk(
   async (data, { dispatch, rejectWithValue }) => {
     try {
       const res = await fetch(
-        "https://young-sparkling-pisces.glitch.me/api/order",
+        "https://webvm-api-your-meal-order.glitch.me/api/order",
         {
           method: "POST",
           headers: {
